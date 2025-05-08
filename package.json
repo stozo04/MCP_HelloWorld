@@ -1,0 +1,25 @@
+{
+    "name": "hello-world-mcp",
+    "version": "1.0.0",
+    "description": "Hello World MCP server example",
+    "type": "module",
+    "bin": {
+        "say-hello": "./build/server.js"
+    },
+    "scripts": {
+        "build": "tsc && chmod 755 build/server.js"
+    },
+    "files": [
+        "build"
+    ],
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "latest",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/node": "^22.15.17",
+        "concurrently": "^8.2.2",
+        "http-server": "^14.1.1",
+        "typescript": "^5.8.3"
+    }
+}

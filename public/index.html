@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World MCP Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        input, button {
+            padding: 8px;
+            margin: 10px 0;
+        }
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello World MCP Example</h1>
+    
+    <div class="container">
+        <label for="nameInput">Enter your name:</label>
+        <input type="text" id="nameInput" placeholder="Your name">
+        <button id="greetButton">Say Hello</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Mock MCP client for demo purposes
+        // In a real implementation, you would use the MCP client SDK
+        async function callMcpServer(toolName, params) {
+            try {
+                // In a real implementation, this would be replaced with actual MCP client code
+                // For demo, we're just simulating what the server would return
+                if (toolName === 'say-hello') {
+                    return {
+                        content: [
+                            {
+                                type: "text",
+                                text: `Hello, ${params.name}`
+                            }
+                        ]
+                    };
+                }
+                return { error: "Unknown tool" };
+            } catch (error) {
+                console.error("Error calling MCP server:", error);
+                return { error: error.message };
+            }
+        }
+
+        document.getElementById('greetButton').addEventListener('click', async () => {
+            const nameInput = document.getElementById('nameInput');
+            const resultDiv = document.getElementById('result');
+            
+            if (!nameInput.value.trim()) {
+                resultDiv.textContent = "Please enter a name first!";
+                return;
+            }
+            
+            resultDiv.textContent = "Processing...";
+            
+            try {
+                const response = await callMcpServer('say-hello', { name: nameInput.value });
+                if (response.error) {
+                    resultDiv.textContent = `Error: ${response.error}`;
+                } else if (response.content && response.content.length > 0) {
+                    resultDiv.textContent = response.content[0].text;
+                } else {
+                    resultDiv.textContent = "Received empty response";
+                }
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
